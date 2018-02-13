@@ -9,13 +9,17 @@ const initialState = {
 
 // REDUX REDUCER
 const reducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case 'NEXT_LYRIC':
       let newArrayPosition = state.arrayPosition + 1;
-      let newState = {
+      newState = {
         songLyricsArray: state.songLyricsArray,
         arrayPosition: newArrayPosition,
       }
+      return newState;
+    case 'RESTART_SONG':
+      newState = initialState;
       return newState;
     default:
       return state;
