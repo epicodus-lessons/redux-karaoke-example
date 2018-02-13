@@ -32,6 +32,13 @@ expect(reducer(initialState, { type: 'NEXT_LYRIC' })).toEqual({
   arrayPosition: 1
 });
 
+expect(reducer({
+    songLyricsArray: songLyricsArray,
+    arrayPosition: 1,
+  },
+  { type: 'RESTART_SONG' })
+).toEqual(initialState);
+
 // REDUX STORE
 const { createStore } = Redux;
 const store = createStore(reducer);
@@ -54,5 +61,7 @@ window.onload = function() {
 // CLICK LISTENER
 const userClick = () => {
   store.dispatch({ type: 'NEXT_LYRIC'} );
-  console.log(store.getState());
 }
+
+// SUBSCRIBE TO REDUX STORE
+store.subscribe(renderLyrics);
