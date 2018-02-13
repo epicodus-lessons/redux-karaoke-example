@@ -64,7 +64,11 @@ window.onload = function() {
 
 // CLICK LISTENER
 const userClick = () => {
-  store.dispatch({ type: 'NEXT_LYRIC'} );
+  if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
+    store.dispatch({ type: 'RESTART_SONG' } );
+  } else {
+    store.dispatch({ type: 'NEXT_LYRIC' } );
+  }
 }
 
 // SUBSCRIBE TO REDUX STORE
