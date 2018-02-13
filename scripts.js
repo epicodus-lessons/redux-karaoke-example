@@ -26,19 +26,28 @@ const initialState = {
 };
 
 // REDUX REDUCER
-const lyricChangeReducer = (state = initialState, action) => {
-  let newState;
+const lyricChangeReducer = (state = initialState.songsById, action) => {
+  let newArrayPosition;
+  let newSongsByIdEntry;
+  let newSongsByIdStateSlice;
   switch (action.type) {
     case 'NEXT_LYRIC':
-      let newArrayPosition = state.arrayPosition + 1;
-      newState = {
-        songLyricsArray: state.songLyricsArray,
-        arrayPosition: newArrayPosition,
-      }
-      return newState;
+      newArrayPosition = state[action.currentSongId].arrayPosition + 1;
+      newSongsByIdEntry = Object.assign({}, state[action.currentSongId], {
+        arrayPosition: newArrayPosition
+      })
+      newSongsByIdStateSlice = Object.assign({}, state, {
+        [action.currentSongId]: newSongsByIdEntry
+      });
+      return newSongsByIdStateSlice;
     case 'RESTART_SONG':
-      newState = initialState;
-      return newState;
+      newSongsByIdEntry = Object.assign({}, state[action.currentSongId], {
+        arrayPosition: 0
+      })
+      newSongsByIdStateSlice = Object.assign({}, state, {
+        [action.currentSongId]: newSongsByIdEntry
+      });
+      return newSongsByIdStateSlice;
     default:
       return state;
   }
@@ -47,7 +56,7 @@ const lyricChangeReducer = (state = initialState, action) => {
 // JEST TESTS + SETUP
 const { expect } = window;
 
-expect(reducer(initialState, { type: null })).toEqual(initialState);
+expect(lyricChangeReducer(initialState.songsById, { type: null })).toEqual(initialState.songsById);
 
 expect(lyricChangeReducer(initialState.songsById, { type: 'NEXT_LYRIC', currentSongId: 2 })).toEqual({
   1: {
@@ -85,31 +94,31 @@ expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', curren
 
 // REDUX STORE
 const { createStore } = Redux;
-const store = createStore(reducer);
+const store = createStore(lyricChangeReducer);
 
 // RENDERING STATE IN DOM
-const renderLyrics = () => {
-  const lyricsDisplay = document.getElementById('lyrics');
-  while (lyricsDisplay.firstChild) {
-    lyricsDisplay.removeChild(lyricsDisplay.firstChild);
-  }
-  const currentLine = store.getState().songLyricsArray[store.getState().arrayPosition];
-  const renderedLine = document.createTextNode(currentLine);
-  document.getElementById('lyrics').appendChild(renderedLine);
-}
-
-window.onload = function() {
-  renderLyrics();
-}
-
-// CLICK LISTENER
-const userClick = () => {
-  if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
-    store.dispatch({ type: 'RESTART_SONG' } );
-  } else {
-    store.dispatch({ type: 'NEXT_LYRIC' } );
-  }
-}
-
-// SUBSCRIBE TO REDUX STORE
-store.subscribe(renderLyrics);
+// const renderLyrics = () => {
+//   const lyricsDisplay = document.getElementById('lyrics');
+//   while (lyricsDisplay.firstChild) {
+//     lyricsDisplay.removeChild(lyricsDisplay.firstChild);
+//   }
+//   const currentLine = store.getState().songLyricsArray[store.getState().arrayPosition];
+//   const renderedLine = document.createTextNode(currentLine);
+//   document.getElementById('lyrics').appendChild(renderedLine);
+// }
+//
+// window.onload = function() {
+//   renderLyrics();
+// }
+//
+// // CLICK LISTENER
+// const userClick = () => {
+//   if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
+//     store.dispatch({ type: 'RESTART_SONG' } );
+//   } else {
+//     store.dispatch({ type: 'NEXT_LYRIC' } );
+//   }
+// }
+//
+// // SUBSCRIBE TO REDUX STORE
+// store.subscribe(renderLyrics);
