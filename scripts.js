@@ -49,17 +49,39 @@ const { expect } = window;
 
 expect(reducer(initialState, { type: null })).toEqual(initialState);
 
-expect(reducer(initialState, { type: 'NEXT_LYRIC' })).toEqual({
-  songLyricsArray: songLyricsArray,
-  arrayPosition: 1
+expect(lyricChangeReducer(initialState.songsById, { type: 'NEXT_LYRIC', currentSongId: 2 })).toEqual({
+  1: {
+    title: "Bye Bye Bye",
+    artist: "N'Sync",
+    songId: 1,
+    songArray: songList[1],
+    arrayPosition: 0,
+  },
+  2: {
+    title: "What's Goin' On",
+    artist: "Four Non-Blondes",
+    songId: 2,
+    songArray: songList[2],
+    arrayPosition: 1,
+  }
 });
 
-expect(reducer({
-    songLyricsArray: songLyricsArray,
-    arrayPosition: 1,
+expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', currentSongId: 1 })).toEqual({
+  1: {
+    title: "Bye Bye Bye",
+    artist: "N'Sync",
+    songId: 1,
+    songArray: songList[1],
+    arrayPosition: 0,
   },
-  { type: 'RESTART_SONG' })
-).toEqual(initialState);
+  2: {
+    title: "What's Goin' On",
+    artist: "Four Non-Blondes",
+    songId: 2,
+    songArray: songList[2],
+    arrayPosition: 0,
+  }
+});
 
 // REDUX STORE
 const { createStore } = Redux;
