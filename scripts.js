@@ -6,9 +6,24 @@ const songList = {
 
 // INITIAL REDUX STATE
 const initialState = {
-  songLyricsArray: songLyricsArray,
-  arrayPosition: 0,
-}
+  currentSongId: null,
+  songsById: {
+    1: {
+      title: "Bye Bye Bye",
+      artist: "N'Sync",
+      songId: 1,
+      songArray: songList[1],
+      arrayPosition: 0,
+    },
+    2: {
+      title: "What's Goin' On",
+      artist: "Four Non-Blondes",
+      songId: 2,
+      songArray: songList[2],
+      arrayPosition: 0,
+    }
+  }
+};
 
 // REDUX REDUCER
 const reducer = (state = initialState, action) => {
