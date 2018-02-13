@@ -25,7 +25,7 @@ const initialState = {
   }
 };
 
-// REDUX REDUCER
+// REDUX REDUCERS
 const lyricChangeReducer = (state = initialState.songsById, action) => {
   let newArrayPosition;
   let newSongsByIdEntry;
@@ -48,6 +48,15 @@ const lyricChangeReducer = (state = initialState.songsById, action) => {
         [action.currentSongId]: newSongsByIdEntry
       });
       return newSongsByIdStateSlice;
+    default:
+      return state;
+  }
+}
+
+const songChangeReducer = (state = initialState.currentSongId, action) => {
+  switch (action.type){
+    case 'CHANGE_SONG':
+      return action.newSelectedSongId
     default:
       return state;
   }
@@ -91,6 +100,11 @@ expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', curren
     arrayPosition: 0,
   }
 });
+
+expect(songChangeReducer(initialState, { type: null })).toEqual(initialState);
+
+expect(songChangeReducer(initialState, { type: 'CHANGE_SONG', newSelectedSongId: 1 })).toEqual(1);
+
 
 // REDUX STORE
 const { createStore } = Redux;
