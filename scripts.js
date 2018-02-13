@@ -9,7 +9,10 @@ const initialState = {
 
 // REDUCER WILL GO HERE
 
-// JEST TESTS + SETUP WILL GO HERE
+// JEST TESTS + SETUP
+const { expect } = window;
+
+expect(reducer(initialState, { type: null })).toEqual(initialState);
 
 // REDUX STORE
 const { createStore } = Redux;
