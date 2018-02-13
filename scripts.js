@@ -26,7 +26,7 @@ const initialState = {
 };
 
 // REDUX REDUCER
-const reducer = (state = initialState, action) => {
+const lyricChangeReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case 'NEXT_LYRIC':
