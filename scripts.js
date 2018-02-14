@@ -62,6 +62,15 @@ const songChangeReducer = (state = initialState.currentSongId, action) => {
   }
 }
 
+const rootReducer = this.Redux.combineReducers({
+  currentSongId: songChangeReducer,
+  songsById: lyricChangeReducer
+});
+
+// REDUX STORE
+const { createStore } = Redux;
+const store = createStore(rootReducer);
+
 // JEST TESTS + SETUP
 const { expect } = window;
 
@@ -105,10 +114,11 @@ expect(songChangeReducer(initialState, { type: null })).toEqual(initialState);
 
 expect(songChangeReducer(initialState, { type: 'CHANGE_SONG', newSelectedSongId: 1 })).toEqual(1);
 
+expect(rootReducer(initialState, { type: null })).toEqual(initialState);
 
-// REDUX STORE
-const { createStore } = Redux;
-const store = createStore(lyricChangeReducer);
+expect(store.getState().currentSongId).toEqual(songChangeReducer(undefined, { type: null }));
+
+expect(store.getState().songsById).toEqual(lyricChangeReducer(undefined, { type: null }));
 
 // RENDERING STATE IN DOM
 const renderLyrics = () => {
@@ -151,7 +161,7 @@ window.onload = function() {
   renderLyrics();
 }
 
-// // CLICK LISTENER
+// CLICK LISTENER
 const userClick = () => {
   if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
     store.dispatch({ type: 'RESTART_SONG' } );
@@ -160,5 +170,5 @@ const userClick = () => {
   }
 }
 
-// // SUBSCRIBE TO REDUX STORE
+// SUBSCRIBE TO REDUX STORE
 store.subscribe(renderLyrics);
