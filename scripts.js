@@ -161,13 +161,21 @@ window.onload = function() {
   renderLyrics();
 }
 
-// CLICK LISTENER
+// CLICK LISTENERS
 const userClick = () => {
   if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
     store.dispatch({ type: 'RESTART_SONG' } );
   } else {
     store.dispatch({ type: 'NEXT_LYRIC' } );
   }
+}
+
+const selectSong = (newSongId) => {
+  let action = {
+    type: 'CHANGE_SONG',
+    newSelectedSongId: newSongId
+  }
+  store.dispatch(action);
 }
 
 // SUBSCRIBE TO REDUX STORE
