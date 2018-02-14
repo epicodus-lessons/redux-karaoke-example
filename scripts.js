@@ -116,9 +116,14 @@ const renderLyrics = () => {
   while (lyricsDisplay.firstChild) {
     lyricsDisplay.removeChild(lyricsDisplay.firstChild);
   }
-  const currentLine = store.getState().songLyricsArray[store.getState().arrayPosition];
-  const renderedLine = document.createTextNode(currentLine);
-  document.getElementById('lyrics').appendChild(renderedLine);
+
+  if (store.getState().currentSongId) {
+    const currentLine = document.createTextNode(store.getState().songsById[store.getState().currentSongId].songArray[store.getState().songsById[store.getState().currentSongId].arrayPosition]);
+    document.getElementById('lyrics').appendChild(currentLine);
+  } else {
+    const selectSongMessage = document.createTextNode("Select a song from the menu above to sing along!");
+    document.getElementById('lyrics').appendChild(selectSongMessage);
+  }
 }
 
 const renderSongs = () => {
