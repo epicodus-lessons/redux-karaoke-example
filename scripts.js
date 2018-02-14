@@ -163,10 +163,12 @@ window.onload = function() {
 
 // CLICK LISTENERS
 const userClick = () => {
-  if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
-    store.dispatch({ type: 'RESTART_SONG' } );
+  if (store.getState().songsById.arrayPosition === store.getState().songsById[store.getState().currentSongId].length - 1) {
+    store.dispatch({ type: 'RESTART_SONG',
+                     currentSongId: store.getState().currentSongId });
   } else {
-    store.dispatch({ type: 'NEXT_LYRIC' } );
+    store.dispatch({ type: 'NEXT_LYRIC',
+                     currentSongId: store.getState().currentSongId });
   }
 }
 
