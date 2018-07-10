@@ -163,7 +163,7 @@ window.onload = function() {
 
 // CLICK LISTENERS
 const userClick = () => {
-  if (store.getState().songsById.arrayPosition === store.getState().songsById[store.getState().currentSongId].length - 1) {
+  if (store.getState().songsById[store.getState().currentSongId].arrayPosition === store.getState().songsById[store.getState().currentSongId].songArray.length - 1) {
     store.dispatch({ type: 'RESTART_SONG',
                      currentSongId: store.getState().currentSongId });
   } else {
